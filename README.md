@@ -29,7 +29,6 @@ El proyecto consiste en una arquitectura **cliente-servidor** compuesta por:
 /diagramas/     # Diagramas UML, ER, casos de uso, etc.
 README.md
 .gitignore
-LICENSE
 ```
 
 ## 🛠️ Tecnologías utilizadas
