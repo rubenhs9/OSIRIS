@@ -1,0 +1,7 @@
+{
+    "USUARIO": "postgres",
+    "CONTRASENA": "1234",
+    "HOST": "localhost",
+    "PUERTO": "5432",
+    "DB": "BD_TFG"
+}

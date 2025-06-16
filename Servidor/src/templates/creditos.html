@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créditos de la Aplicación | Osiris</title>
+    <style>
+        :root {
+          --primary: #d11f45;
+          --primary-light: #e63e5c;
+          --primary-dark: #9e1735;
+          --background: #121212;
+          --card-bg: #1e1e1e;
+          --card-bg-light: #2a2a2a;
+          --text: #e0e0e0;
+          --text-secondary: #a0a0a0;
+          --border: rgba(255, 255, 255, 0.1);
+          --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+          --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+          --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4), 0 5px 10px rgba(0, 0, 0, 0.25);
+          --radius-sm: 6px;
+          --radius-md: 12px;
+          --radius-lg: 16px;
+        }
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+            sans-serif;
+          background: var(--background);
+          color: var(--text);
+          min-height: 100vh;
+          line-height: 1.6;
+        }
+        
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+        }
+        
+        .navbar {
+          background-color: rgba(30, 30, 30, 0.95);
+          backdrop-filter: blur(10px);
+          padding: 1rem 0;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          box-shadow: 0 1px 0 var(--border);
+        }
+        
+        .navbar-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        
+        .brand {
+          display: flex;
+          align-items: center;
+        }
+        
+        .logo {
+          width: 50px;
+          height: auto;
+          margin-right: 1rem;
+          transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+          transform: scale(1.1);
+          filter: drop-shadow(0 0 8px rgba(209, 31, 69, 0.6));
+        }
+        
+        .navbar h2 {
+          margin: 0;
+          color: var(--primary);
+          font-weight: 700;
+          font-size: 1.25rem;
+        }
+        
+        .navbar a {
+          text-decoration: none;
+          color: var(--text);
+          font-weight: 600;
+          font-size: 0.875rem;
+          padding: 0.5rem 1rem;
+          border-radius: var(--radius-sm);
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+        }
+        
+        .navbar a:hover {
+          background-color: rgba(209, 31, 69, 0.15);
+          color: var(--primary-light);
+        }
+        
+        .navbar a .icon {
+          margin-right: 0.5rem;
+          font-size: 1rem;
+        }
+        
+        .dashboard {
+          padding: 2rem 0;
+        }
+        
+        .panel {
+          background-color: var(--card-bg);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-lg);
+          overflow: hidden;
+          margin-bottom: 2rem;
+          border: 1px solid var(--border);
+        }
+        
+        .panel-header {
+          background: linear-gradient(to right, var(--primary-dark), var(--primary));
+          color: white;
+          padding: 1.5rem 2rem;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .panel-header::before {
+          content: "";
+          position: absolute;
+          top: -50%;
+          right: -50%;
+          width: 100%;
+          height: 200%;
+          background: rgba(255, 255, 255, 0.1);
+          transform: rotate(30deg);
+        }
+        
+        .header-content {
+          display: flex;
+          align-items: center;
+          position: relative;
+        }
+        
+        .header-logo {
+          width: 60px;
+          height: auto;
+          margin-right: 1.5rem;
+          filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+        }
+        
+        .header-text {
+          flex: 1;
+        }
+        
+        .panel-header h3 {
+          margin: 0;
+          font-size: 1.5rem;
+          font-weight: 700;
+          position: relative;
+        }
+        
+        .panel-header p {
+          margin: 0.5rem 0 0;
+          opacity: 0.9;
+          font-size: 0.95rem;
+          position: relative;
+        }
+        
+        .panel-body {
+          padding: 2rem;
+        }
+        
+        .section-title {
+          color: var(--text-secondary);
+          margin-bottom: 1.5rem;
+          margin-top: 2.5rem;
+          font-weight: 600;
+          font-size: 1.1rem;
+          display: flex;
+          align-items: center;
+        }
+        
+        .section-title:first-child {
+          margin-top: 0;
+        }
+        
+        .section-title::after {
+          content: "";
+          flex: 1;
+          height: 1px;
+          background: var(--border);
+          margin-left: 1rem;
+        }
+        
+        .team-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+        
+        .team-member {
+          background-color: var(--card-bg-light);
+          border-radius: var(--radius-md);
+          padding: 1.5rem;
+          box-shadow: var(--shadow-sm);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          border: 1px solid var(--border);
+          text-align: center;
+        }
+        
+        .team-member:hover {
+          transform: translateY(-3px);
+          box-shadow: var(--shadow-md);
+          border-color: rgba(209, 31, 69, 0.3);
+        }
+        
+        .member-photo {
+          margin-bottom: 1rem;
+        }
+        
+        .photo {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 3px solid var(--primary);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .member-name {
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 0.5rem;
+        }
+        
+        .member-role {
+          font-size: 0.9rem;
+          color: var(--primary);
+          font-weight: 600;
+          margin-bottom: 0.75rem;
+        }
+        
+        .member-description {
+          font-size: 0.85rem;
+          color: var(--text-secondary);
+          line-height: 1.5;
+        }
+        
+        .acknowledgments {
+          background-color: var(--card-bg-light);
+          border-radius: var(--radius-md);
+          padding: 1.5rem;
+          box-shadow: var(--shadow-sm);
+          border: 1px solid var(--border);
+          margin-bottom: 2rem;
+        }
+        
+        .acknowledgments p {
+          color: var(--text);
+          line-height: 1.6;
+          margin-bottom: 1rem;
+        }
+        
+        .acknowledgments p:last-child {
+          margin-bottom: 0;
+        }
+        
+        .tech-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1rem;
+          margin-bottom: 2rem;
+        }
+        
+        .tech-item {
+          background-color: var(--card-bg-light);
+          border-radius: var(--radius-md);
+          padding: 1rem;
+          box-shadow: var(--shadow-sm);
+          border: 1px solid var(--border);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .tech-item:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-md);
+          border-color: rgba(209, 31, 69, 0.3);
+        }
+        
+        .tech-name {
+          display: block;
+          font-weight: 600;
+          color: var(--text);
+          font-size: 0.95rem;
+          margin-bottom: 0.25rem;
+        }
+        
+        .tech-desc {
+          display: block;
+          font-size: 0.8rem;
+          color: var(--text-secondary);
+        }
+        
+        .project-info {
+          background-color: var(--card-bg-light);
+          border-radius: var(--radius-md);
+          padding: 1.5rem;
+          box-shadow: var(--shadow-sm);
+          border: 1px solid var(--border);
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+        }
+        
+        .info-item {
+          color: var(--text);
+          font-size: 0.9rem;
+        }
+        
+        .info-item strong {
+          color: var(--primary);
+        }
+        
+        .footer {
+          text-align: center;
+          padding: 1.5rem 0;
+          color: var(--text-secondary);
+          font-size: 0.875rem;
+          border-top: 1px solid var(--border);
+        }
+        
+        @media (max-width: 768px) {
+          .team-grid {
+            grid-template-columns: 1fr;
+          }
+        
+          .tech-list {
+            grid-template-columns: 1fr;
+          }
+        
+          .project-info {
+            grid-template-columns: 1fr;
+          }
+        
+          .panel-header {
+            padding: 1.25rem 1.5rem;
+          }
+        
+          .panel-body {
+            padding: 1.5rem;
+          }
+        
+          .header-logo {
+            width: 40px;
+          }
+        
+          .container {
+            padding: 0 1rem;
+          }
+        
+          .photo {
+            width: 100px;
+            height: 100px;
+          }
+        }
+        
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .team-member,
+        .acknowledgments,
+        .tech-item,
+        .project-info {
+          animation: fadeIn 0.6s ease-out;
+        }
+        
+        .team-member:nth-child(1) {
+          animation-delay: 0.1s;
+        }
+        .team-member:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+        .team-member:nth-child(3) {
+          animation-delay: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="brand">
+                <img src="../static/logo.png" alt="Logo de Osiris" class="logo"/>
+                <h2>Osiris</h2>
+            </div>
+            <a href="#" onclick="goBack()">
+                <span class="icon">←</span> Volver
+            </a>
+        </div>
+    </nav>
+
+    <div class="container dashboard">
+        <div class="panel">
+            <div class="panel-header">
+                <div class="header-content">
+                    <img src="../static/logo.png" alt="Logo de Osiris" class="header-logo"/>
+                    <div class="header-text">
+                        <h3>Créditos de la Aplicación</h3>
+                        <p>Plataforma de distribución digital de videojuegos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel-body">
+                <h4 class="section-title">Equipo de Desarrollo</h4>
+                
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <img src="../static/Jesus.jpg?height=120&width=120" alt="Jesús Gómez" class="photo"/>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Jesús Gómez</h3>
+                            <p class="member-role">Desarrollador Principal - Cliente</p>
+                            <p class="member-description">Responsable del desarrollo del cliente en C# con WPF. Se encargó del diseño de la tienda, biblioteca, sistema de registro/login y tokens de autenticación. Especializado en interfaces gráficas y experiencia de usuario.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <img src="../static/Ignacio.jpg?height=120&width=120" alt="Ignacio García" class="photo"/>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Ignacio García</h3>
+                            <p class="member-role">Desarrollador Backend - API de Juegos</p>
+                            <p class="member-description">Desarrolló las API de los juegos, la biblioteca, la tienda y el sistema de logs del servidor. En el cliente, trabajó en el sistema de recarga de saldo y lista de amigos del cliente. También trabajó junto a Rubén en la vista web administrativa y el chat del cliente.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <img src="../static/Ruben.png?height=120&width=120" alt="Rubén de las Heras" class="photo"/>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Rubén de las Heras</h3>
+                            <p class="member-role">Desarrollador Backend - API de Usuarios</p>
+                            <p class="member-description">Se especializó en la API de usuarios, perfiles, sistema de login y autenticación. Desarrolló el sistema de perfiles de usuario y trabajó junto a Ignacio en el chat en tiempo real con SocketIO y la vista web administrativa.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 class="section-title">Sobre el Proyecto</h4>
+                
+                <div class="acknowledgments">
+                    <p>
+                        <strong>OSIRIS</strong> es una plataforma de distribución digital de videojuegos que busca unificar las bibliotecas de juegos de diferentes plataformas en una sola aplicación. Inspirado en el éxito de Steam y Epic Games Store, nuestro objetivo es ofrecer una alternativa intuitiva y liviana que permita a los usuarios gestionar todos sus juegos desde un mismo lugar.
+                    </p>
+                    <p>
+                        El proyecto incluye una tienda virtual con catálogo dinámico, biblioteca personal de juegos, sistema social con lista de amigos y chat en tiempo real. La aplicación permite tanto comprar nuevos juegos como importar bibliotecas existentes de otras plataformas.
+                    </p>
+                </div>
+                
+                <h4 class="section-title">Tecnologías del Servidor</h4>
+                
+                <div class="tech-list">
+                    <div class="tech-item">
+                        <span class="tech-name">Python</span>
+                        <span class="tech-desc">Lenguaje principal del servidor backend</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">Flask</span>
+                        <span class="tech-desc">Framework web para crear la API REST</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">SQLAlchemy</span>
+                        <span class="tech-desc">ORM para gestión de base de datos</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">PostgreSQL</span>
+                        <span class="tech-desc">Base de datos relacional principal</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">Flask-SocketIO</span>
+                        <span class="tech-desc">Chat en tiempo real y comunicación bidireccional</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">Logging</span>
+                        <span class="tech-desc">Sistema de logs y monitorización</span>
+                    </div>
+                </div>
+                
+                <h4 class="section-title">Tecnologías del Cliente</h4>
+                
+                <div class="tech-list">
+                    <div class="tech-item">
+                        <span class="tech-name">C# con WPF</span>
+                        <span class="tech-desc">Aplicación de escritorio para Windows</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">Visual Studio</span>
+                        <span class="tech-desc">Entorno de desarrollo integrado</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">System.Diagnostics</span>
+                        <span class="tech-desc">Sistema de logs del cliente</span>
+                    </div>
+                </div>
+                
+                <h4 class="section-title">Herramientas de Desarrollo</h4>
+                
+                <div class="tech-list">
+                    <div class="tech-item">
+                        <span class="tech-name">GitHub</span>
+                        <span class="tech-desc">Control de versiones y colaboración</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">Postman</span>
+                        <span class="tech-desc">Pruebas y documentación de API</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">Visual Studio Code</span>
+                        <span class="tech-desc">Editor para desarrollo del servidor</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">Adobe Photoshop</span>
+                        <span class="tech-desc">Diseño del logo y recursos gráficos</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">draw.io</span>
+                        <span class="tech-desc">Creación de diagramas de análisis</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">StarUML</span>
+                        <span class="tech-desc">Diagramas UML y casos de uso</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-name">dbDiagram.io</span>
+                        <span class="tech-desc">Diseño de la base de datos relacional</span>
+                    </div>
+                </div>
+                
+                <h4 class="section-title">Agradecimientos</h4>
+                
+                <div class="acknowledgments">
+                    <p>
+                        Queremos agradecer a todos los profesores y compañeros que nos apoyaron durante el desarrollo de este proyecto. En especial a Natalia, nuestra tutora de practicas, por asesorarnos correctamente sobre la estructura de la aplicación y diversas funcionalidades
+                    </p>
+                    <p>
+                        Un agradecimiento especial a la API de Steam por proporcionar los datos de más de 80.000 juegos que alimentan nuestra base de datos, y a todos nuestros amigos que han probado la aplicación proporcionando feedback valioso.
+                    </p>
+                </div>
+                
+                <h4 class="section-title">Información del Proyecto</h4>
+                
+                <div class="project-info">
+                    <div class="info-item">
+                        <strong>Fecha de inicio:</strong> Abril 2025
+                    </div>
+                    <div class="info-item">
+                        <strong>Versión actual:</strong> v1.0.0
+                    </div>
+                    <div class="info-item">
+                        <strong>Tiempo de desarrollo:</strong> 3 meses
+                    </div>
+                    <div class="info-item">
+                        <strong>Arquitectura:</strong> Cliente-Servidor
+                    </div>
+                    <div class="info-item">
+                        <strong>Base de datos:</strong> +80,000 juegos
+                    </div>
+                    <div class="info-item">
+                        <strong>Funcionalidades:</strong> Tienda, Biblioteca, Chat, Amigos
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            &copy; 2025 Osiris<br>
+            Jesús Gómez - Ignacio García - Rubén de las Heras
+        </div>
+    </footer>
+
+    <script>
+        function goBack() {
+          // Simular navegación hacia atrás
+          if (window.history.length > 1) {
+            window.history.back()
+          } else {
+            // Si no hay historial, redirigir a una página por defecto
+            window.location.href = "/admin" // o la URL que corresponda
+          }
+        }
+        
+        // Animación de entrada para las secciones
+        document.addEventListener("DOMContentLoaded", () => {
+          const elements = document.querySelectorAll(".team-member, .acknowledgments, .tech-item, .project-info")
+        
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.style.opacity = "1"
+                  entry.target.style.transform = "translateY(0)"
+                }
+              })
+            },
+            {
+              threshold: 0.1,
+            }
+          )
+        
+          elements.forEach((element) => {
+            element.style.opacity = "0"
+            element.style.transform = "translateY(20px)"
+            element.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out"
+            observer.observe(element)
+          })
+        })
+        
+        // Efecto suave al hacer scroll
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault()
+            const target = document.querySelector(this.getAttribute("href"))
+            if (target) {
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              })
+            }
+          })
+        })
+    </script>
+</body>
+</html>

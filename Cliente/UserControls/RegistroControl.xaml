@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="Cliente_TFG.UserControls.RegistroControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cliente_TFG.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800">
+
+
+    <Grid>
+        <Border Background="{Binding Source={StaticResource AppTheme}, Path=FondoPanel}"
+                BorderBrush="{Binding Source={StaticResource AppTheme}, Path=BordePanel}"
+                BorderThickness="2" CornerRadius="15" Padding="40" Width="430" Height="430"
+                VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel>
+                <TextBlock Text="REGISTRO" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center"
+                           Margin="0 0 0 15" Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoPrincipal}"/>
+
+                <!-- CAMPOS DEL REGISTRO -->
+                <TextBlock Text="Nombre de cuenta" Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoSecundario}" />
+                <TextBox x:Name="txtNombreCuenta" Margin="0 5 0 10" Height="35" FontSize="14" Padding="6"
+                     Background="{Binding Source={StaticResource AppTheme}, Path=Fondo}"
+                     Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoPrincipal}"
+                     BorderBrush="{Binding Source={StaticResource AppTheme}, Path=BordePanel}"
+                     BorderThickness="1"/>
+
+
+                <TextBlock Text="Correo electrónico" Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoSecundario}" />
+                <TextBox x:Name="txtCorreo" Margin="0 5 0 10" Height="35" FontSize="14" Padding="6"
+                     Background="{Binding Source={StaticResource AppTheme}, Path=Fondo}"
+                     Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoPrincipal}"
+                     BorderBrush="{Binding Source={StaticResource AppTheme}, Path=BordePanel}"
+                     BorderThickness="1"/>
+
+                <TextBlock Text="Contraseña" Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoSecundario}" />
+                <PasswordBox x:Name="txtPassword" Margin="0 5 0 15" Height="35" FontSize="14" Padding="6"
+                     Background="{Binding Source={StaticResource AppTheme}, Path=Fondo}"
+                     Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoPrincipal}"
+                     BorderBrush="{Binding Source={StaticResource AppTheme}, Path=BordePanel}"
+                     BorderThickness="1"/>
+
+                <!--PARTE PARA LOS MENSAJES DE ERROR-->
+                <TextBlock x:Name="txtErrores" Text="" Margin="0 0 0 10" HorizontalAlignment="Center"
+                           Foreground="{Binding Source={StaticResource AppTheme}, Path=BordePanel}"/>
+
+
+                <Button Content="Registrarse" Click="Registrarse_Click" Height="40"  FontSize="16" FontWeight="Bold"
+                        Background="{Binding Source={StaticResource AppTheme}, Path=BordePanel}"
+                        Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoPrincipal}"
+                        BorderThickness="0" Cursor="Hand">
+                    <Button.RenderTransform>
+                        <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1" />
+                    </Button.RenderTransform>
+                    <Button.RenderTransformOrigin>0.5,0.5</Button.RenderTransformOrigin>
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="{Binding Source={StaticResource AppTheme}, Path=BordePanel}" />
+                            <Setter Property="Foreground" Value="{Binding Source={StaticResource AppTheme}, Path=TextoPrincipal}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                 To="0.9" Duration="0:0:0.1" />
+                                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                 To="0.9" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                 To="1" Duration="0:0:0.1" />
+                                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                 To="1" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <TextBlock Text="Volver al login" Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoPrecio}"
+                           FontSize="12" Cursor="Hand" TextDecorations="Underline" HorizontalAlignment="Center"
+                           Margin="0 10 0 0" MouseDown="VolverLogin_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,45 @@
+﻿<Window x:Class="Cliente_TFG.Windows.VentanaRecarga"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Recarga Exitosa" Height="250" Width="450"
+        Background="#1E1E1E" WindowStyle="None" AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+
+    <Border CornerRadius="15" BorderBrush="#d11f45" BorderThickness="2" Padding="20" Background="#1E1E1E">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <!-- Icono y mensaje principal -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                <TextBlock Text="✔" FontSize="24" Foreground="#d11f45" Margin="0,0,10,0"/>
+                <TextBlock Text="¡Recarga procesada exitosamente!" FontSize="20" Foreground="White" VerticalAlignment="Center"/>
+                <TextBlock Text="✔" FontSize="24" Foreground="#d11f45" Margin="0,0,10,0"/>
+            </StackPanel>
+
+            <!-- Detalles -->
+            <TextBlock x:Name="txtMonto" Text="💰 Monto: " FontSize="15" Foreground="White" Margin="0,5"/>
+            <TextBlock x:Name="txtMetodo" Text="💳 Método: " FontSize="15" Foreground="White" Margin="0,5"/>
+            <TextBlock Text="El saldo se ha agregado a tu cuenta correctamente." FontSize="15" Foreground="White"/>
+            <TextBlock x:Name="txtSaldo" Text="Saldo actual: " FontSize="15" Foreground="White" Margin="0,2"/>
+
+            <!-- Botón aceptar -->
+            <Button Content="Aceptar" Width="126" Margin="0,20,0,0"
+                    Click="Aceptar_Click"
+                    HorizontalAlignment="Center"
+                    Foreground="White" Background="Transparent"
+                    BorderBrush="#d11f45" BorderThickness="2" Padding="5"
+                    Cursor="Hand" Height="28">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </StackPanel>
+    </Border>
+</Window>

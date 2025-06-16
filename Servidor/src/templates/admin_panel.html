@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <style>
+        :root {
+            --primary: #d11f45;
+            --primary-light: #e63e5c;
+            --primary-dark: #9e1735;
+            --background: #121212;
+            --card-bg: #1e1e1e;
+            --card-bg-light: #2a2a2a;
+            --text: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.4), 0 5px 10px rgba(0,0,0,0.25);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .navbar {
+            background-color: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 0 var(--border);
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: auto;
+            margin-right: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px rgba(209, 31, 69, 0.6));
+        }
+
+        .navbar h2 {
+            margin: 0;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar h2 i {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(209, 31, 69, 0.15);
+            color: var(--primary-light);
+        }
+
+        .navbar a i {
+            margin-right: 0.5rem;
+        }
+
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .panel {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 10px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .panel-header {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 1.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .header-logo {
+            width: 60px;
+            height: auto;
+            margin-right: 1.5rem;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .panel-header p {
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .panel-body {
+            padding: 2rem;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-card {
+            background-color: var(--card-bg-light);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid var(--border);
+        }
+
+        .status-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(209, 31, 69, 0.3);
+        }
+
+        .status-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .status-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(209, 31, 69, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .status-card-title {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .status-card-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .status-card-footer {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(209, 31, 69, 0.25);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(209, 31, 69, 0.3);
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .panel-header {
+                padding: 1.25rem 1.5rem;
+            }
+            
+            .panel-body {
+                padding: 1.5rem;
+            }
+            
+            .header-logo {
+                width: 40px;
+            }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .status-online {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .section-title {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="brand">
+                <img src="../static/logo.png" alt="Logo de Osiris" class="logo"/>
+                <h2>Panel de Administración</h2>
+            </div>
+            <a href="{{ url_for('logout') }}"><i class="ri-logout-box-line"></i> Cerrar sesión</a>
+        </div>
+    </nav>
+
+    <div class="container dashboard">
+        <div class="panel">
+            <div class="panel-header">
+                <div class="header-content">
+                    <img src="../static/logo.png" alt="Logo de Osiris" class="header-logo"/>
+                    <div class="header-text">
+                        <h3>¡Bienvenido, Administrador!</h3>
+                        <p>Gestiona la base de datos del servidor desde aqui.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel-body">
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="status-card-header">
+                            <div class="status-card-icon">
+                                <i class="ri-gamepad-line"></i>
+                            </div>
+                            <div class="status-card-title">Juegos registrados</div>
+                        </div>
+                        <div class="status-card-value">{{ total_juegos }}</div>
+                        <div class="status-card-footer">Última actualización: hoy</div>
+                    </div>
+                    
+                    <div class="status-card">
+                        <div class="status-card-header">
+                            <div class="status-card-icon">
+                                <i class="ri-user-line"></i>
+                            </div>
+                            <div class="status-card-title">Usuarios Registrados</div>
+                        </div>
+                        <div class="status-card-value">{{ total_usuarios }}</div>
+                        <div class="status-card-footer">Última actualización: hoy</div>
+                    </div>
+                    
+                    <div class="status-card">
+                        <div class="status-card-header">
+                            <div class="status-card-icon">
+                                <i class="ri-database-2-line"></i>
+                            </div>
+                            <div class="status-card-title">Estado del servidor</div>
+                        </div>
+                        <div class="status-card-value">
+                            <span class="status-online"></span>
+                            En linea
+                        </div>
+                        <div class="status-card-footer">Conexión estable</div>
+                    </div>
+                </div>
+                
+                <h4 class="section-title">Acciones rápidas</h4>
+                
+                <div class="actions-grid">
+                    <!-- <a href="#" class="btn">
+                        <i class="ri-add-circle-line"></i>
+                        Añadir nuevo juego
+                    </a> -->
+                    
+                    <a href="/server_logs" class="btn">
+                        <i class="ri-list-check"></i>
+                        Ver logs del servidor
+                    </a>
+                    <a href="/creditos" class="btn">
+                        <i class="ri-admin-line"></i>
+                        Ver creditos de la aplicacion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            &copy; 2025 Osiris<br>
+            Jesús Gómez - Ignacio García - Rubén de las Heras
+        </div>
+    </footer>
+</body>
+</html>

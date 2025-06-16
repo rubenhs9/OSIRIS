@@ -1,0 +1,73 @@
+﻿<Window x:Class="Cliente_TFG.Windows.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cliente_TFG.Windows"
+        mc:Ignorable="d"
+        Title="Iniciar sesión"
+        Height="500"
+        Width="900"
+        Icon="..//res/imagenes/logo.ico"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="{Binding Source={StaticResource AppTheme}, Path=Fondo}"
+        WindowStyle="None"
+        AllowsTransparency="True">
+
+    <Window.Resources>
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation Storyboard.TargetName="TransitionContainer"
+                         Storyboard.TargetProperty="Opacity"
+                         To="0" Duration="0:0:0.3"/>
+        </Storyboard>
+
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation Storyboard.TargetName="TransitionContainer"
+                         Storyboard.TargetProperty="Opacity"
+                         To="1" Duration="0:0:0.3"/>
+        </Storyboard>
+    </Window.Resources>
+
+
+    <Grid>
+        <Image Source="/res/login/fondoLogin.png" Stretch="Fill" Panel.ZIndex="0" Opacity="0.1"/>
+        <!--BOTÓN CERRAR-->
+        <Grid Height="40" VerticalAlignment="Top" MouseDown="Header_MouseDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="OSIRIS" VerticalAlignment="Center" Margin="20,0,0,0" FontWeight="Bold" FontSize="14"
+               Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoPrincipal}"/>
+
+            <!--BOTÓN CERRAR LA VENTANA-->
+            <Button Grid.Column="1" Width="40" Height="40" Background="Transparent" BorderThickness="0" Cursor="Hand"  Click="Cerrar_Click">
+                <TextBlock Text="✕" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoPrincipal}"/>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <TextBlock Text="✕"
+                                       FontSize="16"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       x:Name="CloseIcon"
+                                       Foreground="{Binding Source={StaticResource AppTheme}, Path=TextoPrincipal}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CloseIcon" Property="Foreground" Value="Red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+
+        <!-- CONTENIDO DINÁMICO -->
+        <Grid x:Name="TransitionContainer" Opacity="1">
+            <ContentControl x:Name="MainContent"/>
+        </Grid>
+    </Grid>
+</Window>

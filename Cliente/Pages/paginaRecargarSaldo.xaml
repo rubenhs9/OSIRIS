@@ -1,0 +1,445 @@
+﻿<Page x:Class="Cliente_TFG.Pages.paginaRecargaSaldo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Cliente_TFG.Pages"
+      xmlns:classes="clr-namespace:Cliente_TFG.Classes"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+      Title="paginaRecargaSaldo">
+
+    <Page.Resources>
+        <!--ESTILO PARA INPUT DE MONTO PERSONALIZADO-->
+        <Style x:Key="MontoPersonalizadoStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{Binding FondoPanel, Source={x:Static classes:AppTheme.Actual}}"/>
+            <Setter Property="BorderBrush" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="Foreground" Value="{Binding TextoPrincipal, Source={x:Static classes:AppTheme.Actual}}"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <TextBlock x:Name="placeholder"
+                                         Text="Ingresa una cantidad..."
+                                         Margin="{TemplateBinding Padding}"
+                                         Foreground="#888888"
+                                         FontStyle="Italic"
+                                         Visibility="Collapsed"
+                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="placeholder" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="placeholder" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--ESTILO PARA BOTONES DE RECARGA RAPIDA-->
+        <Style x:Key="BotonRecargaRapidaStyle" TargetType="Button">
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="{Binding FondoPanel, Source={x:Static classes:AppTheme.Actual}}"/>
+            <Setter Property="BorderBrush" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Foreground" Value="{Binding TextoPrincipal, Source={x:Static classes:AppTheme.Actual}}"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{Binding RatonEncima, Source={x:Static classes:AppTheme.Actual}}"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--ESTILO PARA BOTON PRINCIPAL-->
+        <Style x:Key="BotonPrincipalStyle" TargetType="Button">
+            <Setter Property="Padding" Value="25,15,25,15"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="{Binding FondoPanel, Source={x:Static classes:AppTheme.Actual}}"/>
+            <Setter Property="BorderBrush" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Foreground" Value="{Binding TextoPrincipal, Source={x:Static classes:AppTheme.Actual}}"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{Binding RatonEncima, Source={x:Static classes:AppTheme.Actual}}"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- ESTILO MODERNO PARA COMBOBOX -->
+        <Style x:Key="ComboBoxModernoStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton"
+                                  Grid.Column="2"
+                                  Focusable="false"
+                                  IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  ClickMode="Press">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border x:Name="MainBorder"
+                                        Background="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"
+                                        BorderBrush="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"
+                                        BorderThickness="2"
+                                        CornerRadius="8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="40"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Contenido seleccionado -->
+                                                <ContentPresenter Grid.Column="0"
+                                                        Margin="10,8"
+                                                        VerticalAlignment="Center"
+                                                        Content="{Binding SelectionBoxItem, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                                        IsHitTestVisible="False"/>
+
+                                                <!-- Icono dropdown -->
+                                                <Path Grid.Column="1"
+                                              Data="M 0 0 L 5 5 L 10 0 Z"
+                                              Fill="White"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="MainBorder" Property="Background" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+                                                <Setter TargetName="MainBorder" Property="BorderBrush" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <!-- Popup -->
+                            <Popup x:Name="PART_Popup"
+                           AllowsTransparency="True"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           Placement="Bottom"
+                           PopupAnimation="Slide">
+                                <Border Background="Black"
+                                BorderBrush="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"
+                                BorderThickness="2"
+                                CornerRadius="8"
+                                MinWidth="{TemplateBinding ActualWidth}"
+                                MaxHeight="200">
+                                    <ScrollViewer>
+                                        <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <!-- Estilo para los items -->
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Padding" Value="15,12"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Medium"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBoxItem">
+                                    <Border x:Name="ItemBorder"
+                                    Background="Black"
+                                    Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="ItemBorder" Property="Background" Value="#333333"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="ItemBorder" Property="Background" Value="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid x:Name="gridPrincipal" Background="{Binding GridPrincipal, Source={x:Static classes:AppTheme.Actual}}">
+
+
+        <ScrollViewer x:Name="panelPrincipal" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" 
+                      Background="Transparent" Padding="50">
+            <StackPanel HorizontalAlignment="Center" MaxWidth="1200">
+
+                <!-- HEADER CON TITULO PRINCIPAL -->
+                <StackPanel HorizontalAlignment="Center" Margin="0,10,0,30">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                        <Path Data="M21,18V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V6H12C10.89,6 10,6.9 10,8V16A2,2 0 0,0 12,18M12,16H22V8H12M16,13.5A1.5,1.5 0 0,1 14.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,12A1.5,1.5 0 0,1 16,13.5Z"
+                              Fill="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}" Width="28" Height="48" Margin="0,0,15,0" RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform Y="12"/>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                        <TextBlock Text="Recarga de Saldo" FontSize="42" FontWeight="Bold" 
+                                   Foreground="{Binding TextoPrincipal, Source={x:Static classes:AppTheme.Actual}}" 
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="Selecciona una cantidad de recarga rápida o ingresa la cantidad que desees" 
+                               FontSize="18" 
+                               Foreground="{Binding TextoSecundario, Source={x:Static classes:AppTheme.Actual}}" 
+                               HorizontalAlignment="Center" 
+                               TextAlignment="Center"/>
+                </StackPanel>
+
+                <!-- SECCION DE RECARGA RAPIDA -->
+                <Border Background="{Binding FondoPanel, Source={x:Static classes:AppTheme.Actual}}" 
+                        BorderBrush="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}" 
+                        BorderThickness="2" 
+                        CornerRadius="20" 
+                        Padding="40" 
+                        Margin="0,0,0,50">
+                    <StackPanel>
+                        <TextBlock Text="⚡ Recarga Rápida" 
+                                   FontSize="32" 
+                                   FontWeight="Bold" 
+                                   Foreground="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}" 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,0,0,30"/>
+
+                        <TextBlock Text="Selecciona una de las siguientes cantidades" 
+                                   FontSize="16" 
+                                   Foreground="{Binding TextoSecundario, Source={x:Static classes:AppTheme.Actual}}" 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,0,0,40"/>
+
+                        <!-- GRID DE BOTONES DE RECARGA RAPIDA -->
+                        <UniformGrid x:Name="gridRecargaRapida" Columns="3" Rows="2" HorizontalAlignment="Center">
+                            <Button Content="5€" Style="{StaticResource BotonRecargaRapidaStyle}" Width="180" Height="100" Tag="5"/>
+                            <Button Content="10€" Style="{StaticResource BotonRecargaRapidaStyle}" Width="180" Height="100" Tag="10"/>
+                            <Button Content="25€" Style="{StaticResource BotonRecargaRapidaStyle}" Width="180" Height="100" Tag="25"/>
+                            <Button Content="50€" Style="{StaticResource BotonRecargaRapidaStyle}" Width="180" Height="100" Tag="50"/>
+                            <Button Content="100€" Style="{StaticResource BotonRecargaRapidaStyle}" Width="180" Height="100" Tag="100"/>
+                            <Button Content="200€" Style="{StaticResource BotonRecargaRapidaStyle}" Width="180" Height="100" Tag="200"/>
+                        </UniformGrid>
+                    </StackPanel>
+                </Border>
+
+                <!-- SECCION DE MONTO PERSONALIZADO -->
+                <Border Background="{Binding FondoPanel, Source={x:Static classes:AppTheme.Actual}}" 
+                        BorderBrush="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}" 
+                        BorderThickness="2" 
+                        CornerRadius="20" 
+                        Padding="40" 
+                        Margin="0,0,0,50" Cursor="">
+                    <StackPanel MaxWidth="600">
+                        <TextBlock Text="💰 Cantidad Personalizada" 
+                                   FontSize="32" 
+                                   FontWeight="Bold" 
+                                   Foreground="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}" 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,0,0,30"/>
+
+                        <TextBlock Text="Ingresa la cantidad exacta que deseas recargar" 
+                                   FontSize="16" 
+                                   Foreground="{Binding TextoSecundario, Source={x:Static classes:AppTheme.Actual}}" 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,0,0,40"/>
+
+                        <!-- INPUT DE MONTO PERSONALIZADO -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,30">
+                            <TextBox x:Name="txtMontoPersonalizado" 
+                                     Style="{StaticResource MontoPersonalizadoStyle}" 
+                                     Width="300" 
+                                     Height="80" 
+                                     TextChanged="txtMontoPersonalizado_TextChanged"/>
+                            <TextBlock Text="€" 
+                                       FontSize="24" 
+                                       FontWeight="Bold" 
+                                       Foreground="{Binding TextoPrincipal, Source={x:Static classes:AppTheme.Actual}}" 
+                                       VerticalAlignment="Center" 
+                                       Margin="15,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- INFORMACION ADICIONAL -->
+                        <StackPanel x:Name="panelInfoMonto" Visibility="Collapsed" Margin="0,0,0,30">
+                            <Border Background="{Binding FondoDescuento, Source={x:Static classes:AppTheme.Actual}}" 
+                                    CornerRadius="10" 
+                                    Padding="20">
+                                <StackPanel>
+                                    <TextBlock x:Name="txtMontoInfo" 
+                                               FontSize="18" 
+                                               FontWeight="Bold" 
+                                               Foreground="{Binding TextoPrincipal, Source={x:Static classes:AppTheme.Actual}}" 
+                                               HorizontalAlignment="Center" 
+                                               Margin="0,0,0,10"/>
+                                    <TextBlock Text="✓ Sin comisiones adicionales" 
+                                               FontSize="14" 
+                                               Foreground="{Binding TextoPrecio, Source={x:Static classes:AppTheme.Actual}}"
+                                               HorizontalAlignment="Center" 
+                                               Margin="0,0,0,5"/>
+                                    <TextBlock Text="✓ Procesamiento instantáneo" 
+                                               FontSize="14" 
+                                               Foreground="{Binding TextoPrecio, Source={x:Static classes:AppTheme.Actual}}" 
+                                               HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- BOTON DE CONTINUAR -->
+                        <Button x:Name="btnContinuarPersonalizado" 
+                                Content="Continuar con Recarga" 
+                                Style="{StaticResource BotonPrincipalStyle}" 
+                                HorizontalAlignment="Center" 
+                                IsEnabled="False" 
+                                Click="btnContinuarPersonalizado_Click"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- PANEL FLOTANTE PARA CONFIRMAR RECARGA -->
+        <Border x:Name="panelConfirmacionRecarga" Background="#DD000000" Visibility="Collapsed" Panel.ZIndex="100">
+            <Border Background="{Binding FondoPanel, Source={x:Static classes:AppTheme.Actual}}" 
+                    BorderBrush="{Binding BordePanel, Source={x:Static classes:AppTheme.Actual}}" 
+                    BorderThickness="3" 
+                    CornerRadius="20" 
+                    Width="500" 
+                    Height="500" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center">
+                <StackPanel Margin="40">
+                    <TextBlock Text="💳 Confirmar Recarga" 
+                               FontSize="28" 
+                               FontWeight="Bold" 
+                               Foreground="{Binding TextoPrincipal, Source={x:Static classes:AppTheme.Actual}}" 
+                               HorizontalAlignment="Center" 
+                               Margin="0,0,0,30"/>
+
+                    <Border Background="{Binding FondoDescuento, Source={x:Static classes:AppTheme.Actual}}" 
+                            CornerRadius="10" 
+                            Padding="20" 
+                            Margin="0,0,0,30">
+                        <StackPanel>
+                            <TextBlock x:Name="txtMontoSeleccionado" 
+                                       FontSize="24" 
+                                       FontWeight="Bold" 
+                                       Foreground="{Binding TextoPrincipal, Source={x:Static classes:AppTheme.Actual}}" 
+                                       HorizontalAlignment="Center" 
+                                       Margin="0,0,0,10"/>
+                            <TextBlock Text="Se agregará a tu saldo disponible" 
+                                       FontSize="14" 
+                                       Foreground="{Binding TextoSecundario, Source={x:Static classes:AppTheme.Actual}}" 
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Método de pago:" 
+                               FontSize="16" 
+                               Foreground="{Binding TextoPrincipal, Source={x:Static classes:AppTheme.Actual}}" 
+                               Margin="0,0,0,10"/>
+
+                    <ComboBox x:Name="cmbMetodosPago" 
+                              Height="45" 
+                              FontSize="16" 
+                              Margin="0,0,0,30"
+                              Style="{StaticResource ComboBoxModernoStyle}"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="✓ Confirmar" 
+                                Style="{StaticResource BotonPrincipalStyle}" 
+                                Width="150" 
+                                Margin="0,0,15,0" 
+                                Click="btnConfirmarRecarga_Click"/>
+                        <Button Content="✕ Cancelar" 
+                                Style="{StaticResource BotonPrincipalStyle}" 
+                                Width="150" 
+                                Margin="15,0,0,0" 
+                                Click="btnCancelarRecarga_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
+</Page>

@@ -1,0 +1,342 @@
+﻿<Page x:Class="Cliente_TFG.Pages.paginaJuegoTienda"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Cliente_TFG.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+      Title="paginaJuegoTienda">
+
+    <Page.Resources>
+        <!--ESTILO DEL BOTON DE COMPRA-->
+        <Style x:Key="PurchaseButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#d11f45"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="Margin" Value="10,10,10,0"/>
+            <Setter Property="Opacity" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Content" Value="🛒 Comprar Ahora"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="PART_Border" 
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="8"
+                        BorderThickness="0"
+                        ClipToBounds="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{TemplateBinding Content}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="PART_Border" Property="Background" Value="#b91a3d"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.02" ScaleY="1.02"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="PART_Border" Property="Background" Value="#a01735"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.98" ScaleY="0.98"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="PART_Border" Property="Background" Value="#cccccc"/>
+                                <Setter Property="Foreground" Value="#666666"/>
+                            </Trigger>
+                            <!-- Trigger para estado biblioteca -->
+                            <Trigger Property="Tag" Value="biblioteca">
+                                <Setter TargetName="PART_Border" Property="Background" Value="#5ebd3e"/>
+                                <Setter Property="Content" Value="📚 En Biblioteca"/>
+                            </Trigger>
+                            <!-- Trigger combinado para hover en estado biblioteca -->
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Tag" Value="biblioteca"/>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="PART_Border" Property="Background" Value="#4da832"/>
+                            </MultiTrigger>
+                            <!-- Trigger combinado para pressed en estado biblioteca -->
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Tag" Value="biblioteca"/>
+                                    <Condition Property="IsPressed" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="PART_Border" Property="Background" Value="#3d8a26"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--ESTILO DEL SCROLLVIEW VERTICAL-->
+        <Style x:Key="VerticalScrollBarStyle" TargetType="ScrollBar">
+            <Setter Property="Width" Value="3"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Orientation" Value="Vertical"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid Background="Transparent">
+                            <Track Name="PART_Track" IsDirectionReversed="True" Orientation="Vertical">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineUpCommand" Visibility="Collapsed"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border Background="#555" CornerRadius="3"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineDownCommand" Visibility="Collapsed"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--SCROLLBAR HORIZONTAL-->
+        <Style x:Key="HorizontalScrollBarStyle" TargetType="ScrollBar">
+            <Setter Property="Height" Value="3"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid Background="Transparent">
+                            <Track Name="PART_Track" Orientation="Horizontal">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineLeftCommand" Visibility="Collapsed"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border Background="#555" CornerRadius="3"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineRightCommand" Visibility="Collapsed"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--ESTILO PARA LOS SCROLLVIWER-->
+        <Style x:Key="CustomScrollViewerStyle" TargetType="ScrollViewer">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollViewer">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!--CONTENIDO PRINCIPAL-->
+                            <ScrollContentPresenter 
+                                 Grid.Column="0"  Grid.Row="0" CanContentScroll="{TemplateBinding CanContentScroll}"/>
+
+                            <!--BARRA VERTICAL-->
+                            <ScrollBar 
+                                x:Name="PART_VerticalScrollBar" Grid.Column="1" Grid.Row="0" Style="{StaticResource VerticalScrollBarStyle}"
+                                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{TemplateBinding VerticalOffset}"
+                                Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+
+                            <!--BARRA HORIZONTAL-->
+                            <ScrollBar 
+                                x:Name="PART_HorizontalScrollBar" Grid.Column="0" Grid.Row="1" Style="{StaticResource HorizontalScrollBarStyle}"
+                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{TemplateBinding HorizontalOffset}"
+                                Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+
+                            <Rectangle 
+                                Grid.Column="1" Grid.Row="1" Fill="Transparent"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Page.Resources>
+
+    <Grid x:Name="gridPrincipal" Background="#80000000">
+        <Image x:Name="imagenBackground" Stretch="Fill" Panel.ZIndex="0" Opacity="0.1"/>
+        <!-- Panel de notificaciones (superpuesto) -->
+        <StackPanel x:Name="panelNotificaciones" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Top" 
+                    Margin="20" 
+                    ZIndex="1000"/>
+
+
+        <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+              Style="{StaticResource CustomScrollViewerStyle}">
+            <Grid Width="1150" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="400"/>
+                </Grid.ColumnDefinitions>
+
+                <!--PARTE IZQUIERDA CON LAS IMAGENES DEL JUEGO, SU DESCRIPCCION LARGA, ETC-->
+
+                <StackPanel HorizontalAlignment="Center" Margin="0,70,0,0" >
+                    <!--GRID PARA EL CARRUSEL DE IMAGENES-->
+                    <Border x:Name="bordeCarrusel" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="15"
+                            BorderThickness="2" >
+                        <StackPanel Name="gridCarrusel" Background="#80000000">
+                            <Grid Name="panelCarrusel"  Width="750" Height="422" VerticalAlignment="Top" Margin="10,10,10,0">
+
+                            </Grid>
+                            <!--GRID PARA LAS MINIATURAS DE IMÁGENES-->
+                            <ScrollViewer x:Name="ScrollMiniaturas" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Background="Transparent" Margin="10,10,10,10"
+                              Style="{StaticResource CustomScrollViewerStyle}">
+                                <StackPanel Name="stackMiniaturas" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 10, 0, 0">
+
+                                </StackPanel>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Border>
+
+                    <!--GRID PARA LA DESCRIPCCION LARGA-->
+                    <Border x:Name="bordeDescripccionLarga" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="15"
+                            BorderThickness="2"  Margin="0,50,0,0">
+                        <Grid x:Name="gridDescripccionLarga">
+
+                            <StackPanel x:Name="panelDescripcionLarga" Margin="10" />
+                        </Grid>
+                    </Border>
+
+                    <!--GRID PARA LAS CATEGORIAS Y GENEROS-->
+                    <Border x:Name="bordeCategoriasGeneros" Grid.Column="1" VerticalAlignment="Top" CornerRadius="15"
+                            BorderThickness="2"  Margin="0,50,0,0">
+                        <Grid x:Name="gridCategoriasGeneros">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <Border x:Name="bordeDatosJuegos" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="15" Margin="30,70,0,0"
+                         BorderThickness="2" >
+                    <Grid x:Name="clipContainer">
+                        <Grid.Clip>
+                            <RectangleGeometry RadiusX="15" RadiusY="15" />
+                        </Grid.Clip>
+
+                        <!--PARTE DERECHA PARA EL PRECIO DEL JUEGO, UNA IMAGEN, LA DESCRIPCCION CORTA, EL BOTON DE COMPRAR ETC-->
+                        <StackPanel x:Name="panelDatosJuego" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"  Background="#80000000">
+                            <!--IMAGEN DEL JUEGO-->
+                            <Grid x:Name="panelImagenPrincipalJuego" Margin="10,10,10,0" />
+
+                            <!--TEXTO CON EL PRECIO-->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock x:Name="textoPrecio" Grid.Column="0" Margin="0,20,0,0" Padding="10"/>
+                                <TextBlock x:Name="textoDescuento" Grid.Column="1" Margin="10,20,0,0"/>
+                            </Grid>
+
+
+                            <!--BOTON PARA COMPRAR O AÑADIR A LA BIBLIOTECA-->
+                            <Button x:Name="botonCompra" 
+                                    Style="{StaticResource PurchaseButtonStyle}"
+                                Click="botonCompra_Click">
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                From="0" To="1" Duration="0:0:0.8"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            
+                            
+                            
+                            
+
+                            <!--GRID PARA LA DESCRIPCCION CORTA-->
+                            <Grid x:Name="gridDescripccionCorta" Margin="0,10,0,0">
+                                <TextBlock Name="textDescripccionCorta" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap"  Padding="10,10,10,0"
+                           FontSize="13"/>
+                            </Grid>
+
+                            <!--GRID PARA LA FECHA DE LANZAMIENTO-->
+                            <StackPanel x:Name="gridFechaLanzamiento" Margin="0,10,0,0" Orientation="Horizontal">
+                                <TextBlock Name="textLanzamiento" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"  Padding="10,10,0,0"
+                           FontSize="13"/>
+
+                                <TextBlock Name="textFechaLanzamiento" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"  Padding="0,10,0,0"
+                           FontSize="15" FontWeight="Bold"/>
+                            </StackPanel>
+
+                            <!--GRID PARA LOS DESARROLLADORES-->
+                            <Grid x:Name="gridDesarrollador" Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Name="textEtiquetaDesarrollador" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap"  Padding="10,10,0,10"
+                           FontSize="13" Grid.Column ="0"/>
+
+                                <TextBlock Name="textDesarrollador" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap"  Padding="0,10,0,10"
+                           FontSize="15" FontWeight="Bold"  Grid.Column ="1"/>
+                            </Grid>
+
+                            <!--GRID PARA LOS EDITORES-->
+                            <Grid x:Name="gridEditor" Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Name="textEtiquetaEditor" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Padding="10,10,0,10"
+                           FontSize="13"  Grid.Column ="0"/>
+
+                                <TextBlock Name="textEditor" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap" Padding="0,10,0,10"
+                           FontSize="15" FontWeight="Bold" Grid.Column ="1"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+    
+</Page>

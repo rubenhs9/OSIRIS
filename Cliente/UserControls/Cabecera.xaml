@@ -1,0 +1,286 @@
+﻿<UserControl x:Class="Cliente_TFG.UserControls.Cabecera"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cliente_TFG.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="1280">
+
+    <UserControl.Resources>
+        <!--ESTILO DEL MENU DESPLEGABLE DEL PERFIL-->
+        <Style x:Key="EstiloMenuItem" TargetType="MenuItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter Content="{TemplateBinding Header}"
+                                          Margin="10 5"
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#656565"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--ESTILO PARA LOS BOTONES DEL MENU-->
+        <Style x:Key="BotonChuloStyle" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#FF5E9DFC" Offset="0"/>
+                        <GradientStop Color="#FF2A52BE" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF1A3A8F"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                CornerRadius="8"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="5" ShadowDepth="2" Color="#40000000"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#FF7CADFC" Offset="0"/>
+                                            <GradientStop Color="#FF3A6BD6" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="BorderBrush" Value="#FF2A52BE"/>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="8" ShadowDepth="3" Color="#60000000"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#FF2A52BE" Offset="0"/>
+                                            <GradientStop Color="#FF5E9DFC" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="3" ShadowDepth="1" Color="#20000000"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </UserControl.Resources>
+    
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--BOTONES DE NAVEGACIÓN-->
+        <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center" Margin="10,0">
+            <Button x:Name="botonAtras" Width="30" Height="30" Margin="0,0,5,0" Click="BtnAtras_Click" Style="{StaticResource BotonChuloStyle}" Cursor="Hand">
+                <Button.Content>
+                    <Path x:Name="pathFlechaIzq" Data="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" Fill="White" Stretch="Uniform"
+                          Width="15" Height="15"/>
+
+                </Button.Content>
+            </Button>
+            <Button x:Name="botonAdelante" Width="30" Height="30" Click="BtnAdelante_Click" Style="{StaticResource BotonChuloStyle}" Cursor="Hand">
+                <Button.Content>
+                    <Path x:Name="pathFlechaDer" Data="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" Fill="White" Stretch="Uniform"
+                          Width="15" Height="15"/>
+
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <!--GRID PARA LOS BOTONES DE TIENDA, BIBLIOTECA Y AMIGOS-->
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!--BOTON PARA LA BIBLIOTECA-->
+            <Button Grid.Column="0" x:Name="botonBiblioteca" Content="BIBLIOTECA" Click="biblioteca_click"  Style="{StaticResource BotonChuloStyle}" Margin="5" Cursor="Hand"/>
+
+            <!--BOTON PARA LA TIENDA-->
+            <Button Grid.Column="1" x:Name="botonTienda" Content="TIENDA" Click="tienda_click"  Style="{StaticResource BotonChuloStyle}" Margin="5" Cursor="Hand"/>
+            
+            <!--BOTON PARA LOS AMIGOS-->
+                <Button Grid.Column="2" x:Name="botonAmigos" Content="AMIGOS" Click="amigos_click"  Style="{StaticResource BotonChuloStyle}" Margin="5" Cursor="Hand"/>
+
+        </Grid>
+
+
+        <!--GRID PARA LA PESTAÑA DE USUARIO-->
+        <Grid x:Name="gridPerfilUsuario" Grid.Column="2" MouseDown="GridPerfilUsuario_MouseDown" Cursor="Hand">
+            <Grid.ContextMenu>
+                <ContextMenu x:Name="StatusMenu"
+                             Background="#FF2D2D2D"
+                             Foreground="White"
+                             BorderBrush="#FF4D4D4D"
+                             BorderThickness="1"
+                             OverridesDefaultStyle="True"
+                              DataContext="{Binding PlacementTarget.DataContext,
+                             RelativeSource={RelativeSource Self}}">
+                    <ContextMenu.Resources>
+                        <Style TargetType="ContextMenu">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ContextMenu">
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="2"
+                                                SnapsToDevicePixels="True">           
+                                            <StackPanel IsItemsHost="True"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ContextMenu.Resources>
+
+                    <!--MENU ITEMS PARA LOS ESTADOS Y DEMAS OPCIONES-->
+                    <MenuItem Click="VerPerfil_Click" Tag="Conectado" Style="{StaticResource EstiloMenuItem}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Cursor="">
+                                <TextBlock Text="Ver mi perfil" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+
+                    <MenuItem Click="RecargarSaldo_Click" Tag="Conectado" Style="{StaticResource EstiloMenuItem}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <TextBlock Text="Recargar Saldo" FontSize="12" VerticalAlignment="Center"/>
+                                <Border Height="1" Background="White" Margin="-10,-5,-5,-5" VerticalAlignment="Bottom" Width="100" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+
+                    <MenuItem Click="StatusMenuItem_Click" Tag="Conectado" Style="{StaticResource EstiloMenuItem}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Ellipse Width="8" Height="8" Margin="0,0,5,0"
+                                         Fill="#FF5EBD3E"/>
+                                <TextBlock Text="En línea" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+
+                    <MenuItem Click="StatusMenuItem_Click" Tag="Ausente" Style="{StaticResource EstiloMenuItem}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Ellipse Width="8" Height="8" Margin="0,0,5,0"
+                                         Fill="#FFE6B905"/>
+                                <TextBlock Text="Ausente" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+
+                    <MenuItem Click="StatusMenuItem_Click" Tag="Ocupado" Style="{StaticResource EstiloMenuItem}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Ellipse Width="8" Height="8" Margin="0,0,5,0"
+                                         Fill="#FFBD3E3E"/>
+                                <TextBlock Text="Ocupado" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+
+                    <MenuItem Click="StatusMenuItem_Click" Tag="Invisible" Style="{StaticResource EstiloMenuItem}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Ellipse Width="8" Height="8" Margin="0,0,5,0"
+                                         Fill="#656565"/>
+                                <TextBlock Text="Invisible" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+
+                    <MenuItem Click="CerrarSesion_Click " Tag="Conectado" Style="{StaticResource EstiloMenuItem}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <Border Height="1" Background="White" Margin="-10,-5,0,0" VerticalAlignment="top" Width="100" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Cerrar sesion" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+
+                </ContextMenu>
+            </Grid.ContextMenu>
+
+            <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
+                    <!--PARTE PARA LA IMAGEN DE PERFIL-->
+                    <Border Margin="0,0,10,0">
+                        <Border.CornerRadius>
+                            <CornerRadius TopLeft="5" TopRight="5" BottomLeft="5" BottomRight="5"/>
+                        </Border.CornerRadius>
+                        <Border.Background>
+                            <ImageBrush x:Name="marcoUser"/>
+                        </Border.Background>
+                        <Border Width="32" Height="32" CornerRadius="6" ClipToBounds="True" BorderBrush="Gray" BorderThickness="1">
+                            <Image Source="{Binding FotoPerfil}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Border>
+                    </Border>
+
+                    <!--CONTENEDOR DE NOMBRE Y ESTADO-->
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding NombreUsuario, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,2"/>
+
+                        <!--INDICADOR DE ESTADO-->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Background="Transparent">
+                            <Ellipse Width="8" Height="8" Margin="0,0,5,0">
+                                <Ellipse.Fill>
+                                    <SolidColorBrush Color="{Binding EstadoColor}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="{Binding EstadoTexto}" Foreground="#FFB3B3B3" FontSize="12" />
+
+                            <TextBlock Text="{Binding Dinero, StringFormat={}{0} €}" Foreground="#FFB3B3B3" FontSize="12" Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </DockPanel>
+        </Grid>
+
+
+    </Grid>
+</UserControl>

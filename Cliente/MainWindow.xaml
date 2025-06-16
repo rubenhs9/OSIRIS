@@ -1,0 +1,36 @@
+﻿<Window x:Class="Cliente_TFG.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:usercontrols="clr-namespace:Cliente_TFG.UserControls"
+        
+        xmlns:local="clr-namespace:Cliente_TFG"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Osiris" Width="1280" Height="720" MinWidth="1280" MinHeight="720"
+        Icon="res/imagenes/logo.ico">
+    <Grid x:Name="mainGrid">
+        <!--FONDO GRADIENTE
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#FF3A0C18" Offset="0.0" />
+                <GradientStop Color="#FF4A0F1D" Offset="0.5" />
+                <GradientStop Color="#FF0A0004" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>-->
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--CABECERA DONDE ESTARAN LOS JUEGOS Y EL BUSCADOR-->
+        <usercontrols:Cabecera x:Name="Cabecera_top" Grid.Row="0" Margin="0,0,0,0"/>
+        
+        <!--FRAME DONDE IRAN CAMBIANDO TODAS LAS PAGINAS DE NUESTRA APP, PONGO POR DEFECTO EL DE LA TIENDA-->
+        <Frame x:Name="framePrincipal" Grid.Row="1"  NavigationUIVisibility="Hidden" Background="Transparent"/>
+
+    </Grid>
+</Window>

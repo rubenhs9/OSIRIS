@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Cliente Test Chat Socket.IO</title>
+<script
+  src="https://cdn.socket.io/4.5.1/socket.io.min.js"
+  integrity="sha384-dZoVd6Ro98cGu3vTPJeEj0bVrpH2p/SgENb5iMjpBTSMobGNb6Fg+M5CJ2RHq+H2"
+  crossorigin="anonymous"
+></script>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; }
+  #chat { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; background: #f9f9f9; }
+  #chat div { margin-bottom: 10px; }
+  .mensaje-remitente { font-weight: bold; }
+  .mensaje-texto { margin-left: 10px; }
+  #status { margin-top: 10px; color: green; }
+  #error { margin-top: 10px; color: red; }
+</style>
+</head>
+<body>
+
+<h2>Cliente Test Chat Socket.IO</h2>
+
+<label>Id Usuario: <input type="number" id="id_usuario" value="1" /></label><br/><br/>
+<label>Id Chat: <input type="number" id="id_chat" value="1" /></label><br/><br/>
+
+<button id="btn_join">Unirse al chat</button>
+<button id="btn_leave">Salir del chat</button><br/><br/>
+
+<div id="chat"></div>
+
+<form id="form_mensaje">
+  <input type="text" id="mensaje" placeholder="Escribe tu mensaje..." autocomplete="off" required style="width: 80%;" />
+  <button type="submit">Enviar</button>
+</form>
+
+<div id="status"></div>
+<div id="error"></div>
+
+<script>
+  const socket = io('http://26.75.134.118:50000'); // Cambia el puerto/host si hace falta
+
+  const chatDiv = document.getElementById('chat');
+  const statusDiv = document.getElementById('status');
+  const errorDiv = document.getElementById('error');
+
+  const idUsuarioInput = document.getElementById('id_usuario');
+  const idChatInput = document.getElementById('id_chat');
+
+  const btnJoin = document.getElementById('btn_join');
+  const btnLeave = document.getElementById('btn_leave');
+  const formMensaje = document.getElementById('form_mensaje');
+  const mensajeInput = document.getElementById('mensaje');
+
+  function agregarMensaje(text, tipo = 'normal') {
+    const div = document.createElement('div');
+    if(tipo === 'remitente') {
+      div.innerHTML = '<span class="mensaje-remitente">' + text + '</span>';
+    } else if(tipo === 'status') {
+      div.style.color = 'green';
+      div.textContent = text;
+    } else if(tipo === 'error') {
+      div.style.color = 'red';
+      div.textContent = text;
+    } else {
+      div.textContent = text;
+    }
+    chatDiv.appendChild(div);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+  }
+
+  btnJoin.addEventListener('click', () => {
+    const data = {
+      id_chat: parseInt(idChatInput.value),
+      id_usuario: parseInt(idUsuarioInput.value)
+    };
+    socket.emit('join_chat', data);
+  });
+
+  btnLeave.addEventListener('click', () => {
+    const data = {
+      id_chat: parseInt(idChatInput.value),
+      id_usuario: parseInt(idUsuarioInput.value)
+    };
+    socket.emit('leave_chat', data);
+  });
+
+  formMensaje.addEventListener('submit', e => {
+    e.preventDefault();
+    const data = {
+      id_usuario_remitente: parseInt(idUsuarioInput.value),
+      id_chat: parseInt(idChatInput.value),
+      mensaje: mensajeInput.value
+    };
+    socket.emit('enviar_mensaje', data);
+    mensajeInput.value = '';
+  });
+
+  socket.on('connect', () => {
+    statusDiv.textContent = 'Conectado al servidor Socket.IO con id: ' + socket.id;
+    errorDiv.textContent = '';
+  });
+
+  socket.on('disconnect', () => {
+    statusDiv.textContent = 'Desconectado del servidor';
+  });
+
+  socket.on('status', data => {
+    agregarMensaje('[Status] ' + data.msg, 'status');
+  });
+
+  socket.on('error', data => {
+    agregarMensaje('[Error] ' + (data.error || JSON.stringify(data)), 'error');
+  });
+
+  socket.on('nuevo_mensaje', data => {
+    const texto = `${data.nombre_usuario} dice: ${data.mensaje} [${new Date(data.timestamp).toLocaleTimeString()}]`;
+    agregarMensaje(texto, 'remitente');
+  });
+</script>
+
+</body>
+</html>

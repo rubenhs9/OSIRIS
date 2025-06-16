@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osiris - Logs del Servidor</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+    <style>
+        :root {
+            --primary: #d11f45;
+            --primary-dark: #9e1735;
+            --background: #121212;
+            --card-bg: #1e1e1e;
+            --text: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --debug-color: #95A5A6;
+            --info-color: #3498db;
+            --warning-color: #f39c12;
+            --error-color: #e74c3c;
+            --critical-color: #c0392b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 2rem 1rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            display: block;
+            margin: 0 auto 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(209, 31, 69, 0.3);
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .log-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 
+                        0 1px 2px rgba(0, 0, 0, 0.2),
+                        0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .log-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4), 
+                        0 1px 3px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.07);
+        }
+
+        .log-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .log-header h2 {
+            color: var(--text);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .log-header h2::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .log-status {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .log-content {
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            max-height: 600px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            margin: 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-dark) var(--card-bg);
+        }
+
+        ul::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ul::-webkit-scrollbar-track {
+            background: var(--card-bg);
+        }
+
+        ul::-webkit-scrollbar-thumb {
+            background-color: var(--primary-dark);
+            border-radius: 4px;
+        }
+
+        li {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            word-break: break-word;
+            position: relative;
+            transition: background-color 0.2s ease;
+            line-height: 1.5;
+        }
+
+        li:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .no-logs {
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .log-debug {
+            color: var(--debug-color);
+        }
+        .log-debug::before {
+            background-color: var(--debug-color);
+        }
+
+        .log-info {
+            color: var(--info-color);
+        }
+        .log-info::before {
+            background-color: var(--info-color);
+        }
+
+        .log-warning {
+            color: var(--warning-color);
+        }
+        .log-warning::before {
+            background-color: var(--warning-color);
+        }
+
+        .log-error {
+            color: var(--error-color);
+        }
+        .log-error::before {
+            background-color: var(--error-color);
+        }
+
+        .log-critical {
+            color: var(--critical-color);
+            font-weight: 500;
+        }
+        .log-critical::before {
+            background-color: var(--critical-color);
+        }
+
+        .log-unknown::before {
+            background-color: var(--text-secondary);
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(209, 31, 69, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .log-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            li {
+                font-size: 0.75rem;
+                padding: 0.5rem 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="../static/logo.png" alt="Logo de Osiris" class="logo"/>
+        <h1>Osiris</h1>
+    </header>
+    
+    <main>
+        <div class="log-container">
+            <div class="log-header">
+                <h2>Logs del Servidor</h2>
+                <div class="log-status">Actualizando en tiempo real</div>
+            </div>
+            
+            <div class="log-content">
+                <ul id="log-output">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <span>Cargando logs...</span>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+            &copy; 2025 Osiris <br>
+            Jesús Gómez - Ignacio García - Rubén de las Heras
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logOutput = document.getElementById('log-output');
+            let isFirstLoad = true;
+            
+            function fetchLogs() {
+                if (!isFirstLoad) {
+                    // No mostrar spinner después de la primera carga
+                    console.log("Buscando logs en /logs...");
+                }
+                
+                fetch('/logs')
+                    .then(response => {
+                        console.log("Response status:", response.status);
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(`HTTP ${response.status}: ${text.slice(0, 100)}...`);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Logs recibidos:", data.logs);
+                        
+                        if (data.logs) {
+                            logOutput.innerHTML = data.logs.map(log => {
+                                // Extraemos el nivel del log para aplicar el estilo correspondiente
+                                const parts = log.split(' - ');
+                                const level = parts.length > 2 ? parts[2].toLowerCase() : 'unknown';
+                                const safeLog = log.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                
+                                return `<li class="log-${level}">${safeLog}</li>`;
+                            }).join('');
+                        } else {
+                            logOutput.innerHTML = `<li class="no-logs">No hay logs disponibles o ${data.error}</li>`;
+                        }
+                        
+                        isFirstLoad = false;
+                        
+                        // Auto-scroll al último log
+                        if (logOutput.lastElementChild) {
+                            logOutput.lastElementChild.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    })
+                    .catch(error => {
+                        console.log("Error al buscar logs:", error);
+                        logOutput.innerHTML = `<li class="no-logs">Error al buscar logs: ${error.message}</li>`;
+                        isFirstLoad = false;
+                    });
+            }
+            
+            // Revisar logs cada 5 segundos
+            setInterval(fetchLogs, 5000);
+            fetchLogs();
+        });
+    </script>
+</body>
+</html>
