@@ -137,6 +137,6 @@ Aunque todos los miembros colaboraron en múltiples fases del desarrollo, se est
   _Backend (Flask): juegos, biblioteca, tienda destacada, logs. Cliente: saldo, amigos, chat. Vista web admin._
 
 - [**Rubén De Las Heras Silveira**](https://github.com/rubenhs9) · [LinkedIn](https://linkedin.com/in/rubenhs9/)  
-  _Backend: usuarios, perfiles, login, sistema social. Cliente: perfil de usuario, ventanas emergentes. Vista web admin y documentación._
+  _Backend (Flask): usuarios, perfiles, login, sistema social. Cliente: perfil de usuario, ventanas emergentes. Vista web admin y documentación._
 
 
