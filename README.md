@@ -1,5 +1,5 @@
 
-# 🎮 OSIRIS – Gestor de videojuegos multiplataforma
+# 🎮 OSIRIS – Gestor de videojuegos 
 
 **OSIRIS** es una aplicación desarrollada como parte del **Proyecto Final de Grado en Desarrollo de Aplicaciones Multiplataforma**, cuyo objetivo principal es ofrecer una alternativa ligera y centralizada a plataformas como Steam, Epic Games, Ubisoft Connect, etc., permitiendo al usuario gestionar su biblioteca de videojuegos desde una única aplicación.
 
