@@ -115,7 +115,7 @@ Aunque todos los miembros colaboraron en múltiples fases del desarrollo, se est
 
     - En el cliente, se encargó de las páginas de recarga de saldo, lista de amigos y chat.
 
-- **Rubén De Las Heras Silveira**👤
+- 👤**Rubén De Las Heras Silveira**👤
   ***Desarrollador principal de la gestión de usuarios y la lógica del sistema social.***  
 
     - Implementó los módulos clave de la API relacionados con usuarios, perfiles, login, lista de amigos y chats.
